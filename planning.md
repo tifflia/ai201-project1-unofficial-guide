@@ -9,7 +9,7 @@
 
 ## Domain
 
-<!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
+This Unofficial Guide will be centered around on-campus housing. Student testimonies can be much more accurate in depicting living experiences in specific dorms than official channels. Facilities quality and social scene are just a few consequential factors that are usually learned through word of mouth.
 
 ---
 
@@ -20,16 +20,16 @@
 
 | # | Source | Description | URL or location |
 |---|--------|-------------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| 1 | The Amherst Student | An article reviewing laundry rooms on campus. | https://amherststudent.com/article/cleaning-up-we-take-a-quick-spin-through-the-four/ |
+| 2 | The Amherst Student | An article where writer Shane Dillon '26 expresses gratitude for his time living in Lipton House. | https://amherststudent.com/article/thank-you-lipton/ |
+| 3 | r/amherstcollege | A Reddit thread where people mention some unexpected cons of student housing. | https://www.reddit.com/r/amherstcollege/comments/1ldaqtb/dorm_honest_review/ |
+| 4 | r/amherstcollege | A Reddit thread comparing and ranking dorms. | https://www.reddit.com/r/amherstcollege/comments/1shgint/best_and_worst_dorms/ |
+| 5 | The Amherst Student | An article where writer Brenda Tenorio '27 reflects on the experience of living in Cohan Hall. | https://amherststudent.com/article/satire-why-cohan-needs-its-one-room-doubles/ |
+| 6 | amherst.edu | A page listing all of the current theme and language communities on campus. | https://www.amherst.edu/campuslife/housing-dining/residential-life/theme |
+| 7 | amherst.edu | A page listing all the residential area groups and the housing accommodations provided in some of them. | https://www.amherst.edu/campuslife/housing-dining/residential-life/residential-areas |
+| 8 | The Amherst Student | An article describing the old room draw process, revealing desirable dorms. | https://amherststudent.amherst.edu/article/2016/04/13/room-draw-chaos.html |
+| 9 | The Amherst Student | An article revealing the realities of campus social life and gatherings after the destruction of "the socials". | https://amherststudent.amherst.edu/article/2017/04/11/scattering-campus-social-life.html |
+| 10 | College Confidential | A forum thread discussing the best freshman dorms and living on "the hill". | https://talk.collegeconfidential.com/t/dorms/473186 |
 
 ---
 
