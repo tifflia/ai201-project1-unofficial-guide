@@ -3,6 +3,15 @@ chromadb>=0.6.0
 groq==0.15.0
 python-dotenv==1.0.1
 
+# Document ingestion (Milestone 3)
+#   Static pages (The Amherst Student):              requests + BeautifulSoup
+#   JS-rendered pages (Reddit, amherst.edu, CollegeConfidential): Playwright
+# After installing, run once to fetch the browser:  playwright install chromium
+requests>=2.32.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+playwright>=1.40.0
+
 # Query interface — add whichever you use for Milestone 5:
 # gradio>=6.9.0
 # streamlit>=1.40.0

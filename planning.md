@@ -127,7 +127,7 @@ User query
     generator.py                chunks passed as context,
     │                           grounded answer with source citations
     ▼
-UI response (Gradio chat interface · app.py)
+UI response (Gradio chat interface - app.py)
 ```
 
 ---
