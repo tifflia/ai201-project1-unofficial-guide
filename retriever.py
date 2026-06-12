@@ -1,15 +1,3 @@
-"""Milestone 4 — Embedding + vector store and retrieval.
-
-Loads the chunks produced by the ingestion pipeline (ingest.py), embeds them
-with all-MiniLM-L6-v2 via sentence-transformers, and stores them in a persistent
-ChromaDB collection with source metadata so every retrieved claim can be traced
-back to where it came from. retrieve() embeds a query and returns the top-k most
-similar chunks with their distance scores.
-
-Run directly to (re)build the vector store and run a sample query:
-    python retriever.py
-"""
-
 import chromadb
 from chromadb.utils import embedding_functions
 from config import CHROMA_COLLECTION, CHROMA_PATH, EMBEDDING_MODEL, N_RESULTS
@@ -112,10 +100,6 @@ def retrieve(query, n_results=N_RESULTS):
     # Drop weak matches — see planning.md, Milestone 4 verification.
     chunks = [c for c in chunks if c["distance"] < 0.7]
 
-    for chunk in chunks:
-        preview = chunk["text"].replace("\n", " ")[:80]
-        print(f"[{chunk['source']}] (dist: {chunk['distance']:.3f}) {preview}...")
-
     return chunks
 
 
@@ -138,4 +122,6 @@ if __name__ == "__main__":
 
     sample = "What are the best dorms if I'm a senior writing a thesis and need a quieter dorm?"
     print(f"\nSample query: {sample!r}\n")
-    retrieve(sample)
+    for chunk in retrieve(sample):
+        preview = chunk["text"].replace("\n", " ")[:80]
+        print(f"[{chunk['source']}] (dist: {chunk['distance']:.3f}) {preview}...")

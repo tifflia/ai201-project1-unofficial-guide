@@ -75,10 +75,10 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | What are the best dorms if I'm a senior writing a thesis and need a quieter dorm? | Plimpton, Wieland, Morrow, Lipton. Avoid dorms in "the triangle" (i.e. Hitchcock, Mayo-Smith, Seelye). |
+| 1 | What are the best and worst dorms if I'm looking for a quieter environment? | Wieland, Morrow, and Lipton. Avoid dorms in "the triangle" (i.e. Hitchcock, Mayo-Smith, Seelye). |
 | 2 | What dorms should I avoid if I don't have a bike or car and can't commute long distances? | Avoid dorms in North Campus (Plimpton, Marsh, and Tyler) or West Campus (Hitchcock, Chapman, and Seligman). |
 | 3 | Is living in Cohan really that bad? | While students have long complained about its confusing architecture, cramped living conditions, and poor facilities, students also describe it as a "rite of passage" that can bring you closer to those you live with. |
-| 4 | Where should I live if I don't want to fight for a washer and dryer while doing laundry? | Moore. This dorm boasts a laundry room fitted with 4 washers and 4 dryers, as opposed to most dorms which only have half the amount. The hall also has an elevator, making the laundry room easily accessible. |
+| 4 | Where should I live if I don't want to fight for a washer and dryer while doing laundry? | Moore or Charles Drew which have a good student to washer/dryer ratio. |
 | 5 | What's the best dorm for me if I want to live in an all women's floor and have the best facilities? | Nicholls Biondi is a great option that has two women's floors. It's in the Greenways which is a newer building so most rooms have AC and other nice facilities. |
 
 ---
