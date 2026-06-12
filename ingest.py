@@ -11,10 +11,14 @@ Two ingestion paths, chosen per source:
                                            content rendered client-side / behind a JS
                                            challenge, so a plain GET returns no text)
 
-Chunking is a separate step (chunk_documents) implemented later — this module only
-collects and cleans the raw text.
+After collection, `chunk_documents()` reads those .txt files back, separates the
+metadata header from the body, and splits each body into overlapping chunks ready
+for embedding (Milestone 4). Every chunk carries its source metadata + a unique
+chunk_id so a retrieved claim can always be traced back to its source.
 
-Run:  python ingest.py
+Run:  python ingest.py collect   # scrape the 10 sources -> documents/*.txt
+      python ingest.py chunk     # chunk those files, write chunks_preview.txt
+      python ingest.py all       # both
 """
 
 from __future__ import annotations
@@ -412,5 +416,109 @@ def collect_documents() -> None:
         sys.exit(1)
 
 
+# --- Chunking (Milestone 3) ---------------------------------------------------
+CHUNK_SIZE = 900
+OVERLAP = 150
+MIN_LENGTH = 100  # drop trailing fragments too short to carry meaning
+
+HEADER_KEYS = ("source", "title", "url", "description", "method")
+
+
+def parse_document(raw: str) -> tuple[dict, str]:
+    """Split a collected .txt file into its metadata header and body text.
+
+    Files written by collect_documents() start with `key: value` lines, then a
+    `---` divider, then the body. Returns (metadata_dict, body)."""
+    header_part, sep, body = raw.partition("\n---\n")
+    if not sep:  # no header divider found -> treat the whole file as body
+        return {}, raw.strip()
+    meta = {}
+    for line in header_part.splitlines():
+        key, colon, value = line.partition(":")
+        if colon and key.strip() in HEADER_KEYS:
+            meta[key.strip()] = value.strip()
+    return meta, body.strip()
+
+
+def load_documents() -> list[dict]:
+    """Load every .txt file from DOCS_PATH, parsing header + body for each."""
+    documents = []
+    for path in sorted(Path(DOCS_PATH).glob("*.txt")):
+        meta, body = parse_document(path.read_text(encoding="utf-8"))
+        documents.append({
+            "filename": path.name,
+            "stem": path.stem,      # e.g. "03_reddit-dorm-honest-review"
+            "meta": meta,
+            "text": body,
+        })
+    print(f"Loaded {len(documents)} document(s): {[d['stem'] for d in documents]}")
+    return documents
+
+
+def chunk_document(doc: dict) -> list[dict]:
+    """Split one loaded document into overlapping chunks ready for embedding.
+
+    Character-based sliding window (CHUNK_SIZE, stepping CHUNK_SIZE - OVERLAP so
+    each chunk shares OVERLAP characters with the tail of the previous one).
+    Every chunk carries the document's source metadata plus a unique chunk_id,
+    so retrieval can attribute each chunk back to its origin."""
+    text = doc["text"]
+    meta = doc["meta"]
+    prefix = doc["stem"]
+    chunks = []
+    counter = 0
+
+    start = 0
+    while start < len(text):
+        end = start + CHUNK_SIZE
+        chunk_text = text[start:end].strip()
+        if len(chunk_text) >= MIN_LENGTH:
+            chunks.append({
+                "text": chunk_text,
+                "chunk_id": f"{prefix}_{counter}",
+                "source": meta.get("source", ""),
+                "title": meta.get("title", ""),
+                "url": meta.get("url", ""),
+            })
+            counter += 1
+        start += CHUNK_SIZE - OVERLAP
+
+    return chunks
+
+
+def chunk_documents(write_preview: bool = False) -> list[dict]:
+    """Load all collected documents and chunk them into one flat list."""
+    documents = load_documents()
+    all_chunks = []
+    for doc in documents:
+        doc_chunks = chunk_document(doc)
+        all_chunks.extend(doc_chunks)
+        print(f"  {doc['stem']:<45} {len(doc['text']):>6} chars -> {len(doc_chunks)} chunk(s)")
+
+    print(f"\nProduced {len(all_chunks)} chunk(s) from {len(documents)} document(s).")
+
+    if write_preview:
+        preview_path = Path(DOCS_PATH).parent / "chunks_preview.txt"
+        with preview_path.open("w", encoding="utf-8") as f:
+            for c in all_chunks:
+                f.write(f"===== {c['chunk_id']} | {c['source']} | {c['title']} =====\n")
+                f.write(f"url: {c['url']}\n")
+                f.write(f"({len(c['text'])} chars)\n\n")
+                f.write(c["text"] + "\n\n")
+        print(f"Wrote chunk preview -> {preview_path}")
+
+    return all_chunks
+
+
 if __name__ == "__main__":
-    collect_documents()
+    mode = sys.argv[1] if len(sys.argv) > 1 else "collect"
+    if mode == "collect":
+        collect_documents()
+    elif mode == "chunk":
+        chunk_documents(write_preview=True)
+    elif mode == "all":
+        collect_documents()
+        chunk_documents(write_preview=True)
+    else:
+        print(f"Unknown mode {mode!r}. Use: collect | chunk | all")
+        sys.exit(1)

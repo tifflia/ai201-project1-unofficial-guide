@@ -42,11 +42,11 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
      numbers fit the structure of your documents.
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
-**Chunk size:** 400 tokens (~2400 characters)
+**Chunk size:** 900 characters (≤256 tokens for this corpus)
 
-**Overlap:** 50 tokens (~300 characters)
+**Overlap:** 150 characters
 
-**Reasoning:** The sources I selected vary in structure (i.e. news articles, forum thread comments, and official webpages). Forum comments are naturally self-contained chunks that average 100-250 words. The articles use a larger paragraph structure where each paragraph covers one idea. 400 tokens should capture a full comment or 1-2 paragraphs without merging unrelated opinions about different dorms. The 50-token overlap prevents splitting a student's opinion from the dorm name they reference, which may appear at the start or end of a thought.
+**Reasoning:** The sources I selected vary in structure (i.e. news articles, forum thread comments, and official webpages). Forum comments are naturally self-contained chunks that average 100-250 words. The articles use a larger paragraph structure where each paragraph covers one idea. The chunk size is bounded by my embedding model: `all-MiniLM-L6-v2` truncates input at 256 tokens, so a larger chunk would have its second half silently dropped before embedding (a 2400-char chunk tokenizes to ~512 tokens). 900 characters tops out around ~240 tokens, comfortably under the 256-token cap. That size still captures roughly one full comment or a single article paragraph — small enough that a chunk's embedding represents one dorm/opinion rather than blending several, which sharpens retrieval. The 150-character overlap prevents splitting a student's opinion from the dorm name they reference, which may appear at the start or end of a thought.
 
 ---
 
@@ -112,8 +112,8 @@ User query
     │                           or Playwright for JavaScript-rendered sites.
     ▼
 [2] CHUNKING                ──► Chunk extracted text from docs
-    ingest.py                   400 tokens / 50 overlap
-    │                           paragraph-aware, metadata attached
+    ingest.py                   900 chars / 150 overlap (≤256-token limit),
+    │                           metadata attached
     ▼
 [3] EMBEDDING + VECTOR STORE ──► all-MiniLM-L6-v2 (sentence-transformers),
     retriever.py                 ChromaDB persistent

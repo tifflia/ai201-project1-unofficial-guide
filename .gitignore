@@ -16,5 +16,8 @@ env/
 chroma_db/
 chroma/
 
+# Generated chunk inspection artifact
+chunks_preview.txt
+
 # macOS
 .DS_Store
