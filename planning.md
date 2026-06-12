@@ -24,7 +24,7 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 |---|--------|-------------|-----------------|
 | 1 | The Amherst Student | An article reviewing laundry rooms on campus. | https://amherststudent.com/article/cleaning-up-we-take-a-quick-spin-through-the-four/ |
 | 2 | The Amherst Student | An article where writer Shane Dillon '26 expresses gratitude for his time living in Lipton House. | https://amherststudent.com/article/thank-you-lipton/ |
-| 3 | r/amherstcollege | A Reddit thread where people mention some unexpected cons of student housing. | https://www.reddit.com/r/amherstcollege/comments/1ldaqtb/dorm_honest_review/ |
+| 3 | prked.com | A student's unofficial guide reviewing first-year and upperclassman dorms, covering quiet vs. social atmosphere, facilities, and location. | https://prked.com/post/a-students-unofficial-guide-to-the-best-dorms-at-amherst-college |
 | 4 | r/amherstcollege | A Reddit thread comparing and ranking dorms. | https://www.reddit.com/r/amherstcollege/comments/1shgint/best_and_worst_dorms/ |
 | 5 | The Amherst Student | An article where writer Brenda Tenorio '27 reflects on the experience of living in Cohan Hall. | https://amherststudent.com/article/satire-why-cohan-needs-its-one-room-doubles/ |
 | 6 | amherst.edu | A page listing all of the current theme and language communities on campus. | https://www.amherst.edu/campuslife/housing-dining/residential-life/theme |
@@ -75,7 +75,7 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | What are the best dorms if I'm a senior writing a thesis? | Plimpton, Wieland, Morrow, Lipton. Avoid dorms in "the triangle" (i.e. Hitchcock, Mayo-Smith, Seelye). |
+| 1 | What are the best dorms if I'm a senior writing a thesis and need a quieter dorm? | Plimpton, Wieland, Morrow, Lipton. Avoid dorms in "the triangle" (i.e. Hitchcock, Mayo-Smith, Seelye). |
 | 2 | What dorms should I avoid if I don't have a bike or car and can't commute long distances? | Avoid dorms in North Campus (Plimpton, Marsh, and Tyler) or West Campus (Hitchcock, Chapman, and Seligman). |
 | 3 | Is living in Cohan really that bad? | While students have long complained about its confusing architecture, cramped living conditions, and poor facilities, students also describe it as a "rite of passage" that can bring you closer to those you live with. |
 | 4 | Where should I live if I don't want to fight for a washer and dryer while doing laundry? | Moore. This dorm boasts a laundry room fitted with 4 washers and 4 dryers, as opposed to most dorms which only have half the amount. The hall also has an elevator, making the laundry room easily accessible. |

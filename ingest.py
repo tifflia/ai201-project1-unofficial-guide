@@ -61,12 +61,12 @@ SOURCES = [
     },
     {
         "id": 3,
-        "name": "r/amherstcollege",
-        "description": "A Reddit thread where people mention unexpected cons of student housing.",
-        "url": "https://www.reddit.com/r/amherstcollege/comments/1ldaqtb/dorm_honest_review/",
-        "method": "js",
-        "kind": "reddit",
-        "slug": "reddit-dorm-honest-review",
+        "name": "prked.com",
+        "description": "A student's unofficial guide reviewing first-year and upperclassman dorms (quiet vs. social, facilities, location).",
+        "url": "https://prked.com/post/a-students-unofficial-guide-to-the-best-dorms-at-amherst-college",
+        "method": "static",
+        "kind": "article",
+        "slug": "prked-best-dorms-guide",
     },
     {
         "id": 4,
@@ -185,6 +185,29 @@ def extract_ghost(html: str) -> tuple[str, str]:
     title_el = soup.select_one(".gh-article-title") or soup.find("h1")
     title = title_el.get_text(strip=True) if title_el else ""
     body_el = soup.select_one(".gh-content") or soup.find("article")
+    body = _soup_text(body_el) if body_el else ""
+    return title, body
+
+
+def extract_article(html: str) -> tuple[str, str]:
+    """Generic blog/article page (e.g. prked.com).
+
+    Title comes from the page <h1>; the body is the main <article>/<main>
+    container with scripts, styles, and nav stripped by _soup_text.
+    """
+    soup = BeautifulSoup(html, "lxml")
+    h1 = soup.find("h1")
+    if h1:
+        title = h1.get_text(strip=True)
+    elif soup.title:
+        title = soup.title.get_text(strip=True).split("|")[0].strip()
+    else:
+        title = ""
+    body_el = (
+        soup.select_one("article#body")
+        or soup.find("article")
+        or soup.find("main")
+    )
     body = _soup_text(body_el) if body_el else ""
     return title, body
 
@@ -365,7 +388,11 @@ def collect_documents() -> None:
     results = []
 
     # ---- Static path (requests + BeautifulSoup) ----
-    static_extractors = {"ghost": extract_ghost, "drupal": extract_drupal}
+    static_extractors = {
+        "ghost": extract_ghost,
+        "drupal": extract_drupal,
+        "article": extract_article,
+    }
     for src in static_sources:
         try:
             html = fetch_static(src["url"])

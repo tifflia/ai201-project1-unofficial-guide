@@ -28,7 +28,7 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 |---|--------|------|-----------------|
 | 1 | The Amherst Student | An article reviewing laundry rooms on campus. | https://amherststudent.com/article/cleaning-up-we-take-a-quick-spin-through-the-four/ |
 | 2 | The Amherst Student | An article where writer Shane Dillon '26 expresses gratitude for his time living in Lipton House. | https://amherststudent.com/article/thank-you-lipton/ |
-| 3 | r/amherstcollege | A Reddit thread where people mention some unexpected cons of student housing. | https://www.reddit.com/r/amherstcollege/comments/1ldaqtb/dorm_honest_review/ |
+| 3 | prked.com | A student's unofficial guide reviewing first-year and upperclassman dorms, covering quiet vs. social atmosphere, facilities, and location. | https://prked.com/post/a-students-unofficial-guide-to-the-best-dorms-at-amherst-college |
 | 4 | r/amherstcollege | A Reddit thread comparing and ranking dorms. | https://www.reddit.com/r/amherstcollege/comments/1shgint/best_and_worst_dorms/ |
 | 5 | The Amherst Student | An article where writer Brenda Tenorio '27 reflects on the experience of living in Cohan Hall. | https://amherststudent.com/article/satire-why-cohan-needs-its-one-room-doubles/ |
 | 6 | amherst.edu | A page listing all of the current theme and language communities on campus. | https://www.amherst.edu/campuslife/housing-dining/residential-life/theme |

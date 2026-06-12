@@ -136,6 +136,6 @@ if __name__ == "__main__":
     print("\nEmbedding and storing chunks...")
     embed_and_store(chunks)
 
-    sample = "What dorms should I avoid if I don't have a bike or car and can't commute long distances?"
+    sample = "What are the best dorms if I'm a senior writing a thesis and need a quieter dorm?"
     print(f"\nSample query: {sample!r}\n")
     retrieve(sample)
