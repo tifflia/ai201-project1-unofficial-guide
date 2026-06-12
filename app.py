@@ -97,7 +97,7 @@ with gr.Blocks(
                     "What dorms should I avoid if I don't have a bike or car and can't commute long distances?",
                     "Is living in Cohan really that bad?",
                     "Where should I live if I don't want to fight for a washer and dryer while doing laundry?",
-                    "What's the best dorm for me if I want to live in an all women's floor and have the best facilities?",
+                    "Which dorm has a women's floor and the best facilities?",
                 ],
                 cache_examples=False,
             )

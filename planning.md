@@ -60,7 +60,9 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 
 **Embedding model:** `all-MiniLM-L6-v2` via `sentence-transformers`
 
-**Top-k:** 5
+**Top-k:** 10
+
+**Top-k reasoning:** I started at 5 but raised it to 10 once the section-aware chunking above exposed a top-k problem. On this ~90-chunk corpus the actual precision gate is the `distance < 0.7` filter in `retrieve()`; top-k only caps how much context reaches the LLM. Retrieval distances here are tightly clustered (top results ~0.35–0.44), and multi-constraint questions (e.g. an all-women's floor *and* the best facilities) spread their relevance across several chunks, so a terse but on-topic chunk like the "Women's Floors" list can sit at rank 8 even after better chunking. Top-k 10 reliably surfaces those without flooding the prompt, and the cited-only Sources list in the UI means retrieved-but-unused chunks never reach the user anyway.
 
 **Production tradeoff reflection:** For deployment to real users with no cost constraint, I would consider using OpenAI's `text-embedding-3-large` which is a larger model that produces higher-dimensional vectors with higher accuracy on nuanced opinion text. Aside from cost, the tradeoffs include latency from network calls and the need for an API key. For a document pool this small, the accuracy gain is likely not worth the added complexity.
 
@@ -75,11 +77,11 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | What are the best and worst dorms if I'm looking for a quieter environment? | Wieland, Morrow, and Lipton. Avoid dorms in "the triangle" (i.e. Hitchcock, Mayo-Smith, Seelye). |
+| 1 | What are the best and worst dorms if I'm looking for a quieter environment? | Wieland, Morrow, or any of the Greenway dorms. Avoid dorms known to be party dorms (i.e. Hitchcock, Mayo-Smith, Seelye). |
 | 2 | What dorms should I avoid if I don't have a bike or car and can't commute long distances? | Avoid dorms in North Campus (Plimpton, Marsh, and Tyler) or West Campus (Hitchcock, Chapman, and Seligman). |
 | 3 | Is living in Cohan really that bad? | While students have long complained about its confusing architecture, cramped living conditions, and poor facilities, students also describe it as a "rite of passage" that can bring you closer to those you live with. |
 | 4 | Where should I live if I don't want to fight for a washer and dryer while doing laundry? | Moore or Charles Drew which have a good student to washer/dryer ratio. |
-| 5 | What's the best dorm for me if I want to live in an all women's floor and have the best facilities? | Nicholls Biondi is a great option that has two women's floors. It's in the Greenways which is a newer building so most rooms have AC and other nice facilities. |
+| 5 | Which dorm has a women's floor and the best facilities? | Nicholls Biondi is a great option that has two women's floors. It's in the Greenways which is a newer building so most rooms have AC and other nice facilities. |
 
 ---
 

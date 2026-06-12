@@ -447,6 +447,8 @@ def collect_documents() -> None:
 CHUNK_SIZE = 900
 OVERLAP = 150
 MIN_LENGTH = 100  # drop trailing fragments too short to carry meaning
+# Structured list pages are intentionally terse, so we keep a much lower floor for those than for prose.
+STRUCTURED_MIN_LENGTH = 20
 
 HEADER_KEYS = ("source", "title", "url", "description", "method")
 
@@ -482,34 +484,98 @@ def load_documents() -> list[dict]:
     return documents
 
 
-def chunk_document(doc: dict) -> list[dict]:
-    """Split one loaded document into overlapping chunks ready for embedding.
-
-    Character-based sliding window (CHUNK_SIZE, stepping CHUNK_SIZE - OVERLAP so
-    each chunk shares OVERLAP characters with the tail of the previous one).
-    Every chunk carries the document's source metadata plus a unique chunk_id,
-    so retrieval can attribute each chunk back to its origin."""
-    text = doc["text"]
+def _make_chunk(text: str, doc: dict, counter: int) -> dict:
+    """Build one chunk dict, attaching the document's source metadata and a
+    unique chunk_id so retrieval can trace the chunk back to its origin."""
     meta = doc["meta"]
-    prefix = doc["stem"]
-    chunks = []
-    counter = 0
+    return {
+        "text": text,
+        "chunk_id": f"{doc['stem']}_{counter}",
+        "source": meta.get("source", ""),
+        "title": meta.get("title", ""),
+        "url": meta.get("url", ""),
+    }
 
+
+def _sliding_window(text: str) -> list[str]:
+    """Character sliding window: CHUNK_SIZE pieces stepping CHUNK_SIZE - OVERLAP,
+    so each piece shares OVERLAP characters with the tail of the previous one."""
+    pieces = []
     start = 0
     while start < len(text):
-        end = start + CHUNK_SIZE
-        chunk_text = text[start:end].strip()
-        if len(chunk_text) >= MIN_LENGTH:
-            chunks.append({
-                "text": chunk_text,
-                "chunk_id": f"{prefix}_{counter}",
-                "source": meta.get("source", ""),
-                "title": meta.get("title", ""),
-                "url": meta.get("url", ""),
-            })
-            counter += 1
+        pieces.append(text[start:start + CHUNK_SIZE])
         start += CHUNK_SIZE - OVERLAP
+    return pieces
 
+
+def _is_structured_list(doc: dict) -> bool:
+    """The amherst.edu pages are structured lists (residential areas, theme
+    communities) rather than prose. A generic sliding window lumps unrelated
+    sections together — e.g. burying the one-line "Women's Floors" list inside a
+    chunk dominated by the AC-units list — which sinks it in retrieval. Those get
+    the section-aware chunker below instead."""
+    return doc["meta"].get("source") == "amherst.edu"
+
+
+def _is_heading(paragraph: str) -> bool:
+    """A blank-line-delimited paragraph that looks like a section header: a
+    single short line, or one ending in a colon (e.g. "Women's Floors:"). Such a
+    line introduces the list that follows it, so it should be kept with it."""
+    if "\n" in paragraph:
+        return False
+    return paragraph.endswith(":") or len(paragraph) <= 60
+
+
+def _split_sections(text: str) -> list[str]:
+    """Split a structured list page into topical sections. Paragraphs are split
+    on blank lines; a heading-like paragraph is then merged with the
+    paragraph(s) that follow it, so a header (and any sub-header) stays attached
+    to its list. This keeps "Single Gender Floors / Women's Floors: / Morrow 4th
+    / Nicholls Biondi" together as one focused, self-describing chunk."""
+    paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+    sections = []
+    i = 0
+    while i < len(paragraphs):
+        parts = [paragraphs[i]]
+        # Keep absorbing the next paragraph while the most recent part is still
+        # a bare heading line (handles a header followed by a sub-header).
+        while _is_heading(parts[-1]) and i + 1 < len(paragraphs):
+            i += 1
+            parts.append(paragraphs[i])
+        sections.append("\n".join(parts))
+        i += 1
+    return sections
+
+
+def chunk_document(doc: dict) -> list[dict]:
+    """Split one loaded document into chunks ready for embedding.
+
+    Prose documents use a character sliding window. Structured amherst.edu list
+    pages use a section-aware split (see _split_sections) so each housing
+    section embeds as its own topic; an over-long section still falls back to
+    the sliding window. Every chunk carries source metadata + a unique chunk_id.
+    """
+    if _is_structured_list(doc):
+        chunks = []
+        counter = 0
+        for section in _split_sections(doc["text"]):
+            pieces = (
+                _sliding_window(section) if len(section) > CHUNK_SIZE else [section]
+            )
+            for piece in pieces:
+                piece = piece.strip()
+                if len(piece) >= STRUCTURED_MIN_LENGTH:
+                    chunks.append(_make_chunk(piece, doc, counter))
+                    counter += 1
+        return chunks
+
+    chunks = []
+    counter = 0
+    for piece in _sliding_window(doc["text"]):
+        piece = piece.strip()
+        if len(piece) >= MIN_LENGTH:
+            chunks.append(_make_chunk(piece, doc, counter))
+            counter += 1
     return chunks
 
 

@@ -15,7 +15,7 @@ CHROMA_COLLECTION = "housing"
 CHROMA_PATH = "./chroma_db"
 
 # --- Retrieval ---
-N_RESULTS = 5
+N_RESULTS = 8
 
 # --- Documents ---
 DOCS_PATH = "./documents"
