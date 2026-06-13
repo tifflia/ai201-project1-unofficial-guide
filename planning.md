@@ -60,9 +60,9 @@ This Unofficial Guide will be centered around on-campus housing. Student testimo
 
 **Embedding model:** `all-MiniLM-L6-v2` via `sentence-transformers`
 
-**Top-k:** 10
+**Top-k:** 8
 
-**Top-k reasoning:** I started at 5 but raised it to 10 once the section-aware chunking above exposed a top-k problem. On this ~90-chunk corpus the actual precision gate is the `distance < 0.7` filter in `retrieve()`; top-k only caps how much context reaches the LLM. Retrieval distances here are tightly clustered (top results ~0.35–0.44), and multi-constraint questions (e.g. an all-women's floor *and* the best facilities) spread their relevance across several chunks, so a terse but on-topic chunk like the "Women's Floors" list can sit at rank 8 even after better chunking. Top-k 10 reliably surfaces those without flooding the prompt, and the cited-only Sources list in the UI means retrieved-but-unused chunks never reach the user anyway.
+**Top-k reasoning:** I started at 5 but raised it to 8 once the section-aware chunking patch exposed a top-k problem. On this ~90-chunk corpus the actual precision gate is the `distance < 0.7` filter in `retrieve()`; top-k only caps how much context reaches the LLM. Retrieval distances here are tightly clustered, and multi-constraint questions spread their relevance across several chunks, so a terse but on-topic chunk can sit at a rank higher than the top-5 even after better chunking. Top-k 8 reliably surfaces those without flooding the prompt, and the cited-only sources list in the UI means retrieved-but-unused chunks never reach the user anyway.
 
 **Production tradeoff reflection:** For deployment to real users with no cost constraint, I would consider using OpenAI's `text-embedding-3-large` which is a larger model that produces higher-dimensional vectors with higher accuracy on nuanced opinion text. Aside from cost, the tradeoffs include latency from network calls and the need for an API key. For a document pool this small, the accuracy gain is likely not worth the added complexity.
 
